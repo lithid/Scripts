@@ -1,7 +1,7 @@
 #!/bin/bash
 #Written to branch a new repo once there is a new release!
 #By Lithid
-#git branch -r | grep origin/ | grep -v master | grep -v HEAD| cut -d/ -f2 | while read line; do git push origin :$line; done;
+#git branch -r | grep origin/ | grep -v master | grep -v HEAD| cut -d/ -f2 | while read line; do git push origin :$line; done; git push origin :gingerbread-release
 
 if [ $# -ne 1 ]; then
 	echo "Written by Lithid"
