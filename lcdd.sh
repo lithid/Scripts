@@ -8,7 +8,7 @@ if [ $# -ne 1 ]; then
         exit 99
 fi
 
-mount -o rw,remount /system
+mount -t yaffs2 -o remount,rw /dev/block/mtdblock4 /system
 cd /system
 sed "s/ro.sf.lcd_density = .*/ro.sf.lcd_density = $1/g" build.prop > tmp
 mv tmp build.prop
