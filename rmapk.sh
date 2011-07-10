@@ -4,8 +4,8 @@
 #Here is where you will keep the main apps from being removed.
 keep_apks="Calendar.apk CalendarProvider.apk GoogleServicesFramework.apk kickback.apk soundback.apk GoogleCalendarSyncAdapter.apk PassionQuickOffice.apk Vending.apk MarketUpdater.apk GooglePartnerSetup.apk GoogleFeedback.apk GoogleContactsSyncAdapter.apkOneTimeInitializer.apk NetworkLocation.apk GoogleBackupTransport.apk Gmail.apk HtcSettings.apk HtcEmailPolicy.apk HtcCopyright.apk AccountAndSyncSettings.apk ApplicationsProvider.apk Contacts.apk ContactsProvider.apk DefaultContainerService.apk DownloadProvider.apk DrmProvider.apk LatinIME.apk MediaProvider.apk Mms.apk PackageInstaller.apk Phone.apk SettingsProvider.apk Settings.apk TelephonyProvider.apk"
 file="/sdcard/keep_apks.tmp"
-mount_ro="mount -t yaffs2 -o remount,rw /dev/block/mtdblock4 /system"
-mount_rw="mount -t yaffs2 -o remount,ro /dev/block/mtdblock4 /system"
+mount_ro="mount -t yaffs2 -o remount,ro /dev/block/mtdblock4 /system"
+mount_rw="mount -t yaffs2 -o remount,rw /dev/block/mtdblock4 /system"
 rm_tmp="rm -r /sdcard/keep_apks.tmp"
 
 echo "Setting system to rw"
