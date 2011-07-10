@@ -14,12 +14,12 @@ repolist=$(cat ../.repo/manifest.xml |grep SalvageMod | awk ' { print $3 } ' | s
 
 for repo in $repolist; do
 	echo "Cloning $repo"
-	git clone git@github.com:$repo.git download >> /dev/null
+	git clone git@github.com:$repo.git download &> /dev/null
 	cd download
 	echo "Creating $1 branch and checking it out now!"
-	git branch $1 >> /dev/null
-	git checkout $1 >> /dev/null
-	git push origin $1 >> /dev/null
+	git branch $1 &> /dev/null
+	git checkout $1 &> /dev/null
+	git push origin $1 &> /dev/null
 	echo "Branch $1 pushed!"
 	cd ..
 	rm -rf download/
