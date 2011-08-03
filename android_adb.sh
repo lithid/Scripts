@@ -22,7 +22,7 @@ echo "alias kill-adb='sudo $HOME/.sdk/android-sdk/platform-tools/./adb kill-serv
 rm $android_tar
 
 echo "You adb installation is now complete!"
-echo "If you could please log out or type < source .bashrc > so that your new config will be laoded into memory I would appreciated it."
+echo "If you could please log out or type < source ~/.bashrc > so that your new config will be laoded into memory I would appreciated it."
 echo "When you get back type < android > install the platform tools after platform tools are installed:"
 echo "Then adb should be installed!"
 
