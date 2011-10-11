@@ -8,7 +8,7 @@ android_tar="android-sdk_r12-linux_x86.tgz"
 apktool_tar_helper="apktool-install-linux-r04-brut1.tar.bz2"
 apktool_tar="apktool1.4.1.tar.bz2"
 bash_profile="$HOME/.bashrc"
-sdk_path="$HOME/.sdk/android-sdk/platform-tools"
+sdk_path="$HOME/.sdk/android-sdk/tools"
 
 function do_adb(){
 echo "Downloading and installing Android-SDK..."
