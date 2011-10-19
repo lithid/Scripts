@@ -1,10 +1,10 @@
 #!/bin/bash
 #Install and configure adb in one step.
 
-android_dl="http://dl.google.com/android/android-sdk_r12-linux_x86.tgz"
+android_dl="http://dl.google.com/android/android-sdk_r14-linux.tgz"
 apktool_dl_url="http://android-apktool.googlecode.com/files/apktool1.4.1.tar.bz2"
 apktool_helper_url="http://android-apktool.googlecode.com/files/apktool-install-linux-r04-brut1.tar.bz2"
-android_tar="android-sdk_r12-linux_x86.tgz"
+android_tar="android-sdk_r14-linux.tgz"
 apktool_tar_helper="apktool-install-linux-r04-brut1.tar.bz2"
 apktool_tar="apktool1.4.1.tar.bz2"
 bash_profile="$HOME/.bashrc"
@@ -16,7 +16,7 @@ wget $android_dl &>> /dev/null
 tar xvf $android_tar &>> /dev/null
 
 mkdir $HOME/.sdk
-mv android-sdk-linux_x86/ $HOME/.sdk/android-sdk/
+mv android-sdk-linux/ $HOME/.sdk/android-sdk/
 
 echo "Creating paths in $bash_profile"
 echo "
