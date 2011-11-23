@@ -1,6 +1,5 @@
 #!/bin/bash
 # Jeremie Long
-# smbclient -U jeremie.long -W cbb //fs1/systems
 
 echo -n "What is your username? > "
 read USER_X
