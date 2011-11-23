@@ -1,0 +1,36 @@
+#!/bin/bash
+# Jeremie Long
+# smbclient -U jeremie.long -W cbb //fs1/systems
+
+echo -n "What is your username? > "
+read USER_X
+
+echo -n "What is the domain? > "
+read DOMAIN_X
+
+echo -n "What is the server you are connecting to? > "
+read SERVER_X
+
+echo -n "What is the share you are trying to use? > "
+read SHARE_X
+
+if [ "$DOMAIN_X" != "cbb" ]; then
+	echo "This domain isn't correct please use a correct one!"
+	exit 1
+fi
+
+echo "You are going to connect to:"
+echo "smbclient -U $USER_X -W $DOMAIN_X //$SERVER_X/$SHARE_X"
+echo -n "Want to connect? > (y or n) > "
+
+read QUESTION
+
+if [ "$QUESTION" = "y" ] || [ "$QUESTION" = "Y" ];then
+	smbclient -U $USER_X -W $DOMAIN_X //$SERVER_X/$SHARE_X
+elif [ "$QUESTION" = "y" ] || [ "$QUESTION" = "N" ];then
+	echo "Not connecting, closing session:"
+	exit 1
+else
+	echo "Couldn't understand, closing"
+	exit 1
+fi
