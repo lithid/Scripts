@@ -1,0 +1,68 @@
+#!/bin/bash
+# Written by: Jeremie Long
+# This is created to easily create local aliases in your local .bashrc profile.
+
+function bash_checking(){
+BASH_CHK=$(grep "~/.bash_aliases ]; then" .bashrc |grep if |wc -l)
+if [ -f $HOME/.bash_aliases ]; then
+	bash_profile=".bash_aliases"
+elif [ ! -f $HOME/.bash_aliases ] && [ "$BASH_CHK" = "1" ]; then
+	touch $HOME/.bash_aliases
+	bash_profile=".bash_aliases"
+elif [ -f $HOME/.bash_aliases ] && [ "$BASH_CHK" = "0" ]; then
+	echo "
+	# fuction to add aliases in .bash_aliases
+	if [ -f ~/.bash_aliases ]; then
+    		. ~/.bash_aliases
+	fi" >> $HOME/.bashrc
+	bash_profile=".bash_aliases"
+fi
+}
+
+function create_alias(){
+echo ""
+echo -n "What is the name of the alias you would like to create? > "
+read alias_name
+
+echo -n "What is command you would like this name assigned to? > "
+read alias_command
+
+echo "Writing new alias to your bash profile!"
+echo "alias $alias_name='$alias_command'" >> $HOME/$bash_profile
+}
+
+function alias_list(){
+echo "Here is your aliases:"
+cat $bash_profile |grep alias
+echo ""
+echo "####################"
+}
+
+bash_checking
+echo "Welcome"
+echo ""
+echo -n "Would you like a list of your current aliases before proceeding? (y or n) > "
+read question
+
+if [ "$question" = "y" ] || [ "$question" = "Y" ]; then
+	alias_list
+elif [ "$question" = "n" ] || [ "$question" = "N" ]; then
+	echo "You said no to a list."
+else
+	echo "This was neither y or n. Stoping."
+fi
+
+echo ""
+echo -n "Would you like to create an alias now? (y or n) > "
+read question
+
+if [ "$question" = "y" ] || [ "$question" = "Y" ]; then
+        create_alias
+elif [ "$question" = "n" ] || [ "$question" = "N" ]; then
+        echo "You said no to creating an alias"
+else
+        echo "This was neither y or n. Stoping."
+fi
+
+
+exit 0
