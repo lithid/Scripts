@@ -1,18 +1,34 @@
 #!/bin/bash
+FOLDER="$HOME/Pictures/InterfaceLift"
 TMP_FILE="/tmp/index.html"
 URL="http://interfacelift.com/wallpaper/downloads/date/widescreen/1680x1050/"
 AGENT="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 (.NET CLR 3.5.30729)"
+
+CHECK="1"
+if [ ! -d $FOLDER ]; then
+	mkdir -p $FOLDER
+fi
+
+COUNT=$(ls $FOLDER |wc -l)
+if [ "$COUNT" -gt "7" ]; then
+	FILE=$(ls -tr $FOLDER |head -n1)
+	rm -rf $FOLDER/$FILE
+fi
 
 echo "Setting up the latest wallpaper from interfacelift.com!"
 wget -P /tmp -nc -U "$AGENT" $URL &>> /dev/null
 
 WALLPAPER=$(grep "/img_NEW/button_download.png" $TMP_FILE |head -n1 |cut -d\" -f2)
-wget -P $HOME -nc -U "$AGENT" http://interfacelift.com/$WALLPAPER &>> /dev/null
-
 NAME=$(echo $WALLPAPER |cut -d/ -f4)
-mv $HOME/$NAME $HOME/Wallpaper.jpg
+GNAME=$(ls $FOLDER |grep $NAME |wc -l)
+if [ "$GNAME" = "1" ]; then
+	CHECK="0"
+fi
 
-gsettings set org.gnome.desktop.background picture-uri file://$HOME/Wallpaper.jpg
+if [ "$CHECK" = "1" ]; then
+	wget -P $FOLDER -nc -U "$AGENT" http://interfacelift.com/$WALLPAPER &>> /dev/null
+	gsettings set org.gnome.desktop.background picture-uri file://$FOLDER/$NAME
+fi
 
 if [ -f $TMP_FILE ]; then
 	rm $TMP_FILE
