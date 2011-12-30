@@ -15,7 +15,6 @@ if [ "$COUNT" -gt "7" ]; then
 	rm -rf $FOLDER/$FILE
 fi
 
-echo "Setting up the latest wallpaper from interfacelift.com!"
 wget -P /tmp -nc -U "$AGENT" $URL &>> /dev/null
 
 WALLPAPER=$(grep "/img_NEW/button_download.png" $TMP_FILE |head -n1 |cut -d\" -f2)
