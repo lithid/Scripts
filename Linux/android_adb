@@ -47,12 +47,32 @@ rm $apktool_tar
 
 echo "Done!"
 }
-do_adb
-do_apktool
 
+function echo_it() {
 echo '
-Your adb installation is now complete!
+Your "$MSG" installation is now complete!
 If you could please log out or type < source ~/.bashrc > so that your new config will be laoded into memory I would appreciated it."
 When you get back type < android > install the platform tools after platform tools are installed:"
 Then adb should be installed!'
+}
+
+case $1 in
+	-no-apktool)
+		do_adb
+		MSG="adb";;
+	-apktool)
+		do_adb
+		do_apktool
+		MSG="adb and apktool";;
+	*)
+		MSG="0"
+		echo "Error: Parameters not met"
+		echo "-no-apktool 	install only adb"
+		echo "-apktool	install adb with apktool";;
+esac
+
+if [ "$MSG" -ne "0" ]; then
+	echo_it
+fi
+
 exit
