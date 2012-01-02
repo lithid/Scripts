@@ -71,7 +71,7 @@ case $1 in
 		echo "-apktool	install adb with apktool";;
 esac
 
-if [ "$MSG" -ne "0" ]; then
+if [ "$MSG" = "0" ]; then
 	echo_it
 fi
 
