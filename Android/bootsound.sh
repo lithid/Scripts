@@ -48,7 +48,7 @@ if [ "$bootsndcheck" = "0"]; then
 	#Changing some permissions
 	chmod 777 /system/bin/bootsound
 	chown root:shell /system/bin/bootsound
-	echo '' >> /system/build.pro
+	echo '' >> /system/build.prop
 	echo 'ro.config.play.bootsound=1' >> /system/build.prop
 else
 	echo "You already have boot sound configured"
