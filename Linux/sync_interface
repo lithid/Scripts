@@ -1,8 +1,25 @@
 #!/bin/bash
+# Written by lithid
+
+DE="Openbox"
 FOLDER="$HOME/Pictures/InterfaceLift"
 TMP_FILE="/tmp/index.html"
 URL="http://interfacelift.com/wallpaper/downloads/date/widescreen/1680x1050/"
 AGENT="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 (.NET CLR 3.5.30729)"
+
+function OB_CMD_FUN() {
+if [ -f $FOLDER/$NAME ]; then
+        cp $FOLDER/$NAME ~/.wallpaper.jpg
+else
+        echo "$FOLDER/$NAME doesn't exist"
+fi
+
+if [ -f ~/.wallpaper.jpg ]; then
+        feh --bg-scale ~/.wallpaper.jpg
+else
+        echo "~/.wallpaper.jpg doesn't exit"
+fi
+}
 
 CHECK="1"
 if [ ! -d $FOLDER ]; then
@@ -26,7 +43,18 @@ fi
 
 if [ "$CHECK" = "1" ]; then
 	wget -P $FOLDER -nc -U "$AGENT" http://interfacelift.com/$WALLPAPER &>> /dev/null
-	gsettings set org.gnome.desktop.background picture-uri file://$FOLDER/$NAME
+	if [ "$DE" = "Gnome" ]; then
+		gsettings set org.gnome.desktop.background picture-uri file://$FOLDER/$NAME
+	elif [ "$DE" = "Openbox" ]; then
+		OB_CMD_FUN
+	else
+		echo "No DE specified"
+		echo "Your wallpaper is located $FOLDER/$NAME"
+	fi
+elif [ "$CHECK" = "0" ]; then
+	echo "Nothing to do"
+else
+	echo "$CHECK needs to be 0 or 1, please try again."
 fi
 
 if [ -f $TMP_FILE ]; then
