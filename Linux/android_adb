@@ -1,10 +1,10 @@
 #!/bin/bash
 #Install and configure adb in one step.
 
-android_dl="http://dl.google.com/android/android-sdk_r16-linux.tgz"
+android_dl="http://dl.google.com/android/android-sdk_r18-linux.tgz"
 apktool_dl_url="http://android-apktool.googlecode.com/files/apktool1.4.3.tar.bz2"
 apktool_helper_url="http://android-apktool.googlecode.com/files/apktool-install-linux-r04-brut1.tar.bz2"
-android_tar="android-sdk_r16-linux.tgz"
+android_tar="android-sdk_r18-linux.tgz"
 apktool_tar_helper="apktool-install-linux-r04-brut1.tar.bz2"
 apktool_tar="apktool1.4.3.tar.bz2"
 bash_profile="$HOME/.bashrc"
@@ -21,7 +21,7 @@ mv android-sdk-linux/ $HOME/.sdk/android-sdk/
 echo "Creating paths in $bash_profile"
 echo "
 #Android Paths
-export PATH='$HOME/.sdk/android-sdk/tools/:$HOME/.sdk/android-sdk/platform-tools/:${PATH}'
+export PATH="$HOME/.sdk/android-sdk/tools/:$HOME/.sdk/android-sdk/platform-tools/:${PATH}"
 
 #Adb Alias
 alias start-adb='sudo $HOME/.sdk/android-sdk/platform-tools/./adb start-server'
