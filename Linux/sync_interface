@@ -1,62 +1,59 @@
 #!/bin/bash
 # Written by lithid
 
-DE="Openbox"
-FOLDER="$HOME/Pictures/InterfaceLift"
-TMP_FILE="/tmp/index.html"
-URL="http://interfacelift.com/wallpaper/downloads/date/widescreen/1680x1050/"
-AGENT="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 (.NET CLR 3.5.30729)"
+# Select the display type here
+TYPE="hdtv"
 
-function OB_CMD_FUN() {
-if [ -f $FOLDER/$NAME ]; then
-        cp $FOLDER/$NAME ~/.wallpaper.jpg
-else
-        echo "$FOLDER/$NAME doesn't exist"
-fi
+# Choose your resolution here as it appears on Interface Lift
+DEM="1080p"
 
-if [ -f ~/.wallpaper.jpg ]; then
-        feh --bg-scale ~/.wallpaper.jpg
-else
-        echo "~/.wallpaper.jpg doesn't exit"
-fi
-}
+# Amount you want to store, default this is set to seven days.
+$AMT="7"
 
+# This is just a few needed variables for the script
+FOLDER="$HOME/Pictures/InterfaceLift" # Folder for the images
+URL="http://interfacelift.com/wallpaper/downloads/date/$TYPE/$DEM/" # The URL
+AGENT="Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 (.NET CLR 3.5.30729)" # Useragent
+TMP_FILE="/tmp/index.html" # Temp file
+
+# Simply check if the Interface Lift folder exits, if not makes it.
 CHECK="1"
 if [ ! -d $FOLDER ]; then
 	mkdir -p $FOLDER
 fi
 
+# This is a quick check to check how old images are, lists them by date and removes the oldest.
 COUNT=$(ls $FOLDER |wc -l)
-if [ "$COUNT" -gt "7" ]; then
+if [ "$COUNT" -gt "$AMT" ]; then
 	FILE=$(ls -tr $FOLDER |head -n1)
 	rm -rf $FOLDER/$FILE
 fi
 
-wget -P /tmp -nc -U "$AGENT" $URL &>> /dev/null
+# This grabs the webpage holding the images we are looking for.
+wget -P /tmp -nc -U "$AGENT" $URL
 
-WALLPAPER=$(grep "/img_NEW/button_download.png" $TMP_FILE |head -n1 |cut -d\" -f2)
-NAME=$(echo $WALLPAPER |cut -d/ -f4)
-GNAME=$(ls $FOLDER |grep $NAME |wc -l)
+# This is where most of the work gets done.
+WALLPAPER=$(grep "/img_NEW/button_download.png" $TMP_FILE |head -n1 |cut -d\" -f2) # Regex to look for the images
+NAME=$(echo $WALLPAPER |cut -d/ -f4) # Grab the image name
+GNAME=$(ls $FOLDER |grep $NAME |wc -l) # Exist checking
+
+# Check if the image exists in the Interface Lift folder, if so ignore
 if [ "$GNAME" = "1" ]; then
 	CHECK="0"
 fi
 
+# If the check still is 1 then we have a new wallpaper
 if [ "$CHECK" = "1" ]; then
-	wget -P $FOLDER -nc -U "$AGENT" http://interfacelift.com/$WALLPAPER &>> /dev/null
-	if [ "$DE" = "Gnome" ]; then
-		gsettings set org.gnome.desktop.background picture-uri file://$FOLDER/$NAME
-	elif [ "$DE" = "Openbox" ]; then
-		OB_CMD_FUN
-	else
-		echo "No DE specified"
-		echo "Your wallpaper is located $FOLDER/$NAME"
-	fi
+	# Download the wallpaper to the Interface Lift folder, and apply it with gsettings.
+	wget -P $FOLDER -nc -U "$AGENT" http://interfacelift.com/$WALLPAPER
+	gsettings set org.gnome.desktop.background picture-uri file://$FOLDER/$NAME
 elif [ "$CHECK" = "0" ]; then
 	echo "Nothing to do"
 else
 	echo "$CHECK needs to be 0 or 1, please try again."
 fi
 
+# Remove temp file and be done
 if [ -f $TMP_FILE ]; then
 	rm $TMP_FILE
 fi
