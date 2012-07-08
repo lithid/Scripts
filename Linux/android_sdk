@@ -14,6 +14,7 @@ tar xvf $android_tar &>> /dev/null
 mkdir $HOME/.sdk
 mv android-sdk-linux/ $HOME/.sdk/android-sdk/
 
+echo "
 #Adb Alias
 alias adb="$HOME/.sdk/android-sdk/platform-tools/./adb"
 alias fastboot="sudo $HOME/.sdk/android-sdk/platform-tools/./fastboot"
