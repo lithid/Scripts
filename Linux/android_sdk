@@ -18,7 +18,7 @@ echo "
 #Adb Alias
 alias adb=\"$HOME/.sdk/android-sdk/platform-tools/./adb\"
 alias fastboot=\"sudo $HOME/.sdk/android-sdk/platform-tools/./fastboot\"
-alias android=\"sudo $HOME/.sdk/android-sdk/tools/./android\"
+alias android=\"$HOME/.sdk/android-sdk/tools/./android\"
 " >> $bash_profile
 
 rm $android_tar
