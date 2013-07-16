@@ -1,28 +1,49 @@
 #!/bin/bash
-# Script for dual monitors on openbox
+#!/bin/bash
 # Written by Jeremie Long
 
-LVDS="LVDS1"
-VGA="VGA1"
-HDMI="HDMI1"
-
-CHK_VGA=$(xrandr |grep $VGA | awk ' { print $2 } ')
-CHK_HDMI=$(xrandr |grep $HDMI | awk ' { print $2 } ')
-
-CHK_VGA_G=$(xrandr |grep $VGA | grep "+")
-CHK_HDMI_G=$(xrandr |grep $HDMI | grep "+")
-
-function dual_it_up(){
-xrandr --output $LVDS --off --output $VGA --auto --output $HDMI --auto
-xrandr --output $VGA --right-of $HDMI
+function display_dual_monitors_no_lvds(){
+xrandr --output $1 --off 
+xrandr --output $2 --auto --output $3 --auto
+xrandr --output $2 --right-of $3
 }
 
-if [ "$CHK_VGA" == "connected" ] || [ "$CHK_HDMI" == "connected" ]; then
-	dual_it_up
-elif [ "$CHK_VGA_G" ] || [ "$CHK_HDMI_G" ]; then
-	dual_it_up
-else
-	xrandr --output $LVDS --auto
-fi
+function display_dual_monitors_lvds(){
+xrandr --output $1 --auto --output $2 --auto
+xrandr --output $1 --right-of $2
+}
 
-exit
+function display_monitor_lvds(){
+xrandr --output $1 --auto
+}
+
+
+LIST=$(xrandr |grep -v "^ " |awk '{ print $1 }')
+W_LVDS=0
+for x in $LIST; do
+	CHK=$(xrandr |grep $x |grep ' connected')
+	if [ "$CHK" ]; then
+		DISPLAYS[$W_LVDS]="$x"
+		let W_LVDS=W_LVDS+1
+	fi
+done
+
+N_LVDS=0
+for x in $LIST; do
+	if [ ! `echo $x |grep -i "lvds"` ]; then
+		CHK=$(xrandr |grep $x |grep " connected")
+        	if [ "$CHK" ]; then
+        		let N_LVDS=N_LVDS+1
+		fi
+	fi
+done
+
+if [ $W_LVDS -gt $N_LVDS ]; then
+	if [ $W_LVDS > 2 ]; then
+		display_dual_monitors_no_lvds "${DISPLAYS[@]}"
+	else
+		display_dual_monitors_lvds "${DISPLAYS[@]}"
+	fi
+elif [ $W_LVDS -eq 1 ]; then
+	display_monitor_lvds "${DISPLAYS[@]}"
+fi
